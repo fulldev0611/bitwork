@@ -19,7 +19,7 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description="Run API with OpenAI parameters.")
     parser.add_argument("--auth_token", default="paul123", help="Authentication token")
     parser.add_argument("--model_name", type=str, default= "cerebras/btlm-3b-8k-base", help="Model name")
-    parser.add_argument("--port", default=8091, type=int, help="Model name")
+    parser.add_argument("--port", default=8091, type=int, help="Port")
 
     parser.add_argument(
             "--cerebras.device", type=str, help="Device to load model", default="cuda"
@@ -79,13 +79,10 @@ def chat():
 
 class ModelMiner():
 
-    def __init__( self, model_name, device="cuda", max_length=250, temperature=0.7, do_sample=True ):
+    def __init__( self, max_length=50, no_repeat_ngram_size=2 ):
         super( ModelMiner, self ).__init__()
-        
-        print(self.config)    
-        bittensor.logging.info(
-            "Loading BTLM {} model...".format(self.config.cerebras.model_size)
-        )
+      
+    
         model = AutoModelForCausalLM.from_pretrained(
             "cerebras/btlm-3b-8k-base", trust_remote_code=True
         )
@@ -100,8 +97,8 @@ class ModelMiner():
             tokenizer=tokenizer,
             device=0,
             do_sample=False,
-            max_new_tokens=self.config.cerebras.max_length,
-            no_repeat_ngram_size=self.config.cerebras.no_repeat_ngram_size,
+            max_new_tokens=max_length,
+            no_repeat_ngram_size=no_repeat_ngram_size,
         )
 
     @staticmethod
