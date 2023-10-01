@@ -53,7 +53,7 @@ def chat():
 
 class ModelMiner():
 
-    def __init__( self, model_name, device="cuda", max_length=250, temperature=0.7, do_sample=True ):
+    def __init__( self, model_name, device="cuda", max_length=350, temperature=0.7, do_sample=True ):
         super( ModelMiner, self ).__init__()
         
         self.device = device
