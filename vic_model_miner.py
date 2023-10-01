@@ -1,4 +1,3 @@
-
 import os
 import argparse
 from typing import Dict, List
@@ -16,9 +15,9 @@ import torch
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Run API with OpenAI parameters.")
-    parser.add_argument("--auth_token", default="", help="Authentication token")
-    parser.add_argument("--model_name", default="gpt-3.5-turbo", help="Model name")
-    parser.add_argument("--port", default=8008, type=int, help="Model name")
+    parser.add_argument("--auth_token", default="paul123", help="Authentication token")
+    parser.add_argument("--model_name", type=str, default= "lmsys/vicuna-13b-v1.5", help="Model name")
+    parser.add_argument("--port", default=8091, type=int, help="Port Number")
     return parser.parse_args()
 
 
@@ -34,7 +33,7 @@ def chat():
         return jsonify({"error": "Invalid authentication token"}), 401
 
     # Get messages from the request
-    
+
     messages = request_data.get("messages", [])
     n = request_data.get('n', 1)
 
@@ -51,6 +50,7 @@ def chat():
 
 
 
+
 class ModelMiner():
 
     def __init__( self, model_name, device="cuda", max_length=250, temperature=0.7, do_sample=True ):
@@ -63,8 +63,8 @@ class ModelMiner():
         
         self.system_prompt=""
 
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False )
-        self.model = AutoModelForCausalLM.from_pretrained( model_name, torch_dtype = torch.float16, low_cpu_mem_usage=True )
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False, trust_remote_code=True )
+        self.model = AutoModelForCausalLM.from_pretrained( model_name, torch_dtype = torch.float16, low_cpu_mem_usage=True, trust_remote_code=True )
         print("model loaded")
         
         
