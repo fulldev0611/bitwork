@@ -19,7 +19,7 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description="Run API with OpenAI parameters.")
     parser.add_argument("--auth_token", default="paul123", help="Authentication token")
     parser.add_argument("--model_name", type=str, default= "cerebras/btlm-3b-8k-base", help="Model name")
-    parser.add_argument("--port", default=8091, type=int, help="Port")
+    parser.add_argument("--port", default=8092, type=int, help="Port")
 
     parser.add_argument(
             "--cerebras.device", type=str, help="Device to load model", default="cuda"
@@ -116,7 +116,8 @@ class ModelMiner():
     def forward(self, messages: List[Dict[str, str]]) -> str:
         history = self._process_history(messages)
         generation = self.pipe(history)[0]["generated_text"].split(":")[-1].replace(str(history), "")
-        
+
+        print("History:  " + str(history))        
         print("Message: " + str(messages),flush=True)
         print("Generation: " + str(generation),flush=True)
 
