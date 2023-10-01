@@ -97,7 +97,7 @@ class ModelMiner():
             tokenizer=tokenizer,
             device=0,
             do_sample=False,
-            max_new_tokens=max_length,
+            # max_new_tokens=max_length,
             no_repeat_ngram_size=no_repeat_ngram_size,
         )
 
