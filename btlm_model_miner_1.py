@@ -79,7 +79,7 @@ def chat():
 
 class ModelMiner():
 
-    def __init__( self, max_length=50, no_repeat_ngram_size=2 ):
+    def __init__( self, max_length=50, no_repeat_ngram_size=3 ):
         super( ModelMiner, self ).__init__()
       
     
@@ -97,7 +97,7 @@ class ModelMiner():
             tokenizer=tokenizer,
             device=0,
             do_sample=False,
-            max_new_tokens=250,
+            max_new_tokens=350,
             no_repeat_ngram_size=no_repeat_ngram_size,
         )
 
