@@ -79,7 +79,7 @@ def chat():
 
 class ModelMiner():
 
-    def __init__( self, max_length=50, no_repeat_ngram_size=3 ):
+    def __init__( self, max_length=50, no_repeat_ngram_size=1 ):
         super( ModelMiner, self ).__init__()
       
     
