@@ -115,10 +115,10 @@ class ModelMiner():
     
     def forward(self, messages: List[Dict[str, str]]) -> str:
         history = self._process_history(messages)
-        # generation = self.pipe(history)[0]["generated_text"].split(":")[-1].replace(str(history), "")
+        generation = self.pipe(history)[0]["generated_text"].split(":")[-1].replace(str(history), "")
         
         print("Message: " + str(messages),flush=True)
-        # print("Generation: " + str(generation),flush=True)
+        print("Generation: " + str(generation),flush=True)
 
         return (
             self.pipe(history)[0]["generated_text"]
