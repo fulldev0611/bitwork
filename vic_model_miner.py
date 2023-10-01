@@ -16,7 +16,7 @@ import torch
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Run API with OpenAI parameters.")
     parser.add_argument("--auth_token", default="paul123", help="Authentication token")
-    parser.add_argument("--model_name", type=str, default= "lmsys/vicuna-13b-v1.5", help="Model name")
+    parser.add_argument("--model_name", type=str, default= "lmsys/vicuna-7b-v1.5", help="Model name")
     parser.add_argument("--port", default=8091, type=int, help="Port Number")
     return parser.parse_args()
 
@@ -64,7 +64,7 @@ class ModelMiner():
         self.system_prompt=""
 
         self.tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False, trust_remote_code=True )
-        self.model = AutoModelForCausalLM.from_pretrained( model_name, torch_dtype = torch.half, low_cpu_mem_usage=True, trust_remote_code=True )
+        self.model = AutoModelForCausalLM.from_pretrained( model_name, torch_dtype = torch.float16, low_cpu_mem_usage=True, trust_remote_code=True )
         print("model loaded")
         
         
