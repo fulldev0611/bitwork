@@ -88,6 +88,9 @@ class ModelMiner():
     def forward(self, history, num_replies=4):
 
         # history = self._process_history(messages)
+        
+        print("History: " + str(history))
+
         prompt = history + "ASSISTANT:"
 
         input_ids = self.tokenizer.encode(prompt, return_tensors="pt").to(self.device)
