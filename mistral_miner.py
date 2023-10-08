@@ -88,7 +88,7 @@ class ModelMiner():
         return processed_history
 
     def forward(self, messages, num_replies=4):
-
+        print("History: " + str(messages))
         history = self._process_history(messages)
         prompt = history + "ASSISTANT:"
 
