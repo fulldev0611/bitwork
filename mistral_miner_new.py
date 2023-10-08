@@ -34,12 +34,12 @@ def chat():
 
     # Get messages from the request
 
-    messages = request_data.get("messages", [])
+    history = request_data.get("history", [])
     n = request_data.get('n', 1)
 
     # Call the forward function and get the response
     try:
-        response = miner.forward(messages, num_replies = n)
+        response = miner.forward(history, num_replies = n)
     except:
         traceback.print_exc(file=sys.stderr)
         return "An error occured"
@@ -47,8 +47,6 @@ def chat():
         response = response[0]
     # Return the response
     return jsonify({"response": response})
-
-
 
 
 class ModelMiner():
@@ -87,43 +85,33 @@ class ModelMiner():
                 processed_history += 'USER: ' + message['content'].strip() + ' '
         return processed_history
 
-    def forward(self, messages, num_replies=4):
+    def forward(self, history, num_replies=4):
 
-        history = self._process_history(messages)
+        # history = self._process_history(messages)
         prompt = history + "ASSISTANT:"
 
         input_ids = self.tokenizer.encode(prompt, return_tensors="pt").to(self.device)
 
-        # output = self.model.generate(
-        #     input_ids,
-        #     max_length=input_ids.shape[1] + self.max_length,
-        #     temperature=self.temperature,
-        #     do_sample=self.do_sample,
-        #     pad_token_id=self.tokenizer.eos_token_id,
-        # )
-
-        # generation = self.tokenizer.decode(output[0][input_ids.shape[1]:], skip_special_tokens=True)
+        
         output = self.model.generate(
             input_ids,
             max_length=input_ids.shape[1] + self.max_length,
             temperature=self.temperature,
             do_sample=self.do_sample,
             pad_token_id=self.tokenizer.eos_token_id,
-            num_return_sequences=num_replies,  # Set the number of desired replies
+            # num_return_sequences=num_replies,  # Set the number of desired replies
             # penalty_alpha=0.6, top_k=4,
         )
-        
-        generations = []
-        for sequence in output:
-            generation = self.tokenizer.decode(sequence[input_ids.shape[1]:], skip_special_tokens=True)
-            generations.append(generation)
 
+        completion = self.tokenizer.decode(
+            output[0][input_ids.shape[1] :], skip_special_tokens=True
+        )
+                
         # Logging input and generation if debugging is active
-        print("Message: " + str(messages),flush=True)
-        print("Generation: " + str(generation),flush=True)
+        print("Message: " + str(history),flush=True)
+        print("Generation: " + str(completion),flush=True)
 
-        return generations
-
+        return completion
 
 if __name__ == "__main__":
     args = parse_arguments()
