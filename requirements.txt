@@ -2,3 +2,4 @@ protobuf
 flask
 sentencepiece
 accelerate
+transformers
