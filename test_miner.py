@@ -36,8 +36,6 @@ def chat():
 
     history = request_data.get("history", [])
     n = request_data.get('n', 1)
-    n=1
-
     # Call the forward function and get the response
     try:
         response = miner.forward(history, num_replies = n)
