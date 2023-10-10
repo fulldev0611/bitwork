@@ -75,7 +75,7 @@ class ModelMiner():
 
         prompt = history + "ASSISTANT:"
         input_ids = self.tokenizer.encode(prompt, return_tensors="pt").to(
-            self.config.vicuna.device
+            self.device
         )
         output = self.model.generate(
             input_ids,
