@@ -82,8 +82,7 @@ class ModelMiner():
             temperature=self.temperature,
             do_sample=self.do_sample,
             top_k=40,
-            top_p=0.95,
-            max_new_tokens=512
+            top_p=0.95
         )
  
 
